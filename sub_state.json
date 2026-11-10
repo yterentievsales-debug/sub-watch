@@ -1,8 +1,8 @@
 {
  "7975909439": {
   "name": "Юрий",
-  "subscribed": true,
-  "thanked": true
+  "subscribed": false,
+  "thanked": false
  },
  "5515093563": {
   "name": "Юрий",
@@ -13,8 +13,5 @@
   "name": "Stina",
   "subscribed": false,
   "thanked": false
- },
- "_meta": {
-  "totalSent": 0
  }
 }
