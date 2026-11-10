@@ -1,0 +1,33 @@
+name: sub-watch
+
+on:
+  schedule:
+    - cron: "2-57/5 * * * *"   # каждые 5 минут (в минуты :02, :07, ... :57)
+  workflow_dispatch:            # ручной запуск из вкладки Actions
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check subscriptions and greet new subscribers
+        run: python sub_watch.py
+        env:
+          NOYA_KEY: ${{ secrets.NOYA_KEY }}
+          DEMO_BOT_TOKEN: ${{ secrets.DEMO_BOT_TOKEN }}
+
+      - name: Commit state
+        run: |
+          git config user.name "sub-watch"
+          git config user.email "actions@github.com"
+          if [ -f sub_state.json ]; then git add sub_state.json; fi
+          git diff --cached --quiet || git commit -m "chore: sub state update"
+          git push
